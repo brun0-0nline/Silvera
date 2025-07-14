@@ -9,7 +9,9 @@ fi
 
 ### Remove packages
 dnf5 -y remove firefox \
-               firefox-langpacks
+               firefox-langpacks \
+               gnome-extensions-app \
+               yelp
 
 ### Post removal cleanup
 dnf5 clean all
@@ -28,19 +30,14 @@ dnf5 -y --setopt=localpkg_gpgcheck=1 in https://mirrors.rpmfusion.org/free/fedor
 dnf5 -y swap ffmpeg-free ffmpeg --allowerasing
 dnf5 -y in libva-intel-driver
 
-# Install distrobox and packages required by homebrew
-dnf5 -y in distrobox @development-tools \
+# Install distrobox, gnome tweaks and packages required by homebrew
+dnf5 -y in distrobox gnome-tweaks \
+                     @development-tools \
                      procps-ng \
                      curl \
                      file
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
-
 #### Enabling a System Unit File
+# Left this here cause it's on the template
 
 systemctl enable podman.socket
