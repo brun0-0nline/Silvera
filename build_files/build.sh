@@ -2,14 +2,6 @@
 
 set -ouex pipefail
 
-# Install dnf5 if not installed
-if ! rpm -q dnf5 >/dev/null; then
-    rpm-ostree install dnf5
-fi
-
-### Install DNF5 plugins to get the config-manager
-dnf5 -y in dnf5-plugins
-
 # Add and verify rpmfusion repos
 dnf5 -y in distribution-gpg-keys && \
 rpmkeys --import /usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-$(rpm -E %fedora) && \
@@ -22,27 +14,17 @@ dnf5 -y swap ffmpeg-free ffmpeg --allowerasing
 dnf5 -y in libva-intel-driver
 
 # Install packages required by homebrew
-dnf5 -y in  @development-tools \
-            procps-ng \
-            curl \
-            file
+dnf5 -y in  @development-tools
 
 ### Install packages i want to use
 dnf5 -y in  distrobox \
             gnome-tweaks \
             chromium \
-            chromedriver \
-            ptyxis
+            chromedriver 
 
 ### Remove packages
-dnf5 -y remove  fedora-bookmarks \
-                fedora-chromium-config \
-                fedora-chromium-config-gnome \
-                fedora-logos \
-                firefox \
+dnf5 -y remove  firefox \
                 firefox-langpacks \
-                gnome-extensions-app \
-                gnome-shell-extension-background-logo \
                 gnome-software-rpm-ostree \
                 gnome-console \
                 yelp
